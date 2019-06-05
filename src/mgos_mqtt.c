@@ -147,10 +147,12 @@ static void mgos_mqtt_ev(struct mg_connection *nc, int ev, void *ev_data,
       if (s_cfg->clean_session) {
         opts.flags |= MG_MQTT_CLEAN_SESSION;
       }
+      if (s_cfg->will_retain) {
+        opts.flags |= MG_MQTT_WILL_RETAIN;
+      }
       opts.keep_alive = s_cfg->keep_alive;
       opts.will_topic = s_cfg->will_topic;
       opts.will_message = s_cfg->will_message;
-      opts.flags = MG_MQTT_RETAIN | MG_MQTT_QOS(1);
       const char *client_id =
           (s_cfg->client_id != NULL ? s_cfg->client_id
                                     : mgos_sys_config_get_device_id());
